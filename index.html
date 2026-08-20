@@ -177,7 +177,7 @@ Swift checklist · HTML
 <script>
 const DATA = [
   {
-    title: "📄 Papieren & voorbereiding",
+    title: "Papieren & voorbereiding",
     items: [
       { text: "RDW-kentekenrapport gecheckt (18ZJVB)", note: "Los van de dealer-link zelf even op rdw.nl checken" },
       { text: "Onderhoudsboekje + facturen aanwezig en bekeken" },
@@ -186,15 +186,15 @@ const DATA = [
     ]
   },
   {
-    title: "⛓️ Distributieketting",
+    title: "Distributieketting",
     items: [
-      { text: "Motor koud laten starten (niet vooraf laten warmdraaien!)", note: "Bij 117.000 km zit dit motortype in de risicozone" },
+      { text: "Motor koud laten starten", note: "Bij 117.000 km zit dit motortype in de risicozone" },
       { text: "Goed geluisterd naar geratel/gerammel eerste seconden" },
       { text: "Gevraagd of ketting ooit vervangen is" },
     ]
   },
   {
-    title: "⚙️ Versnellingsbak (nieuw vervangen!)",
+    title: "Versnellingsbak (nieuw vervangen!)",
     items: [
       { text: "Gevraagd: wanneer vervangen en bij welke km-stand?" },
       { text: "Gevraagd: waarom vervangen — defect, preventief, ruilbak?" },
@@ -205,7 +205,7 @@ const DATA = [
     ]
   },
   {
-    title: "🔧 Swift-specifieke punten",
+    title: "Swift-specifieke punten",
     items: [
       { text: "ABS-ring: geen rammel bij voorwielen over hobbels" },
       { text: "Wielophanging op speling gecheckt (op brug, wiebelen aan wielen)" },
@@ -213,16 +213,16 @@ const DATA = [
     ]
   },
   {
-    title: "🦀 Roest (18 jaar oude auto)",
+    title: "Roest",
     items: [
       { text: "Wielkasten voor en achter gecontroleerd" },
       { text: "Drempels en onderkant portieren gecontroleerd" },
-      { text: "Bodemplaat gecontroleerd (evt. op brug)" },
+      { text: "Bodemplaat gecontroleerd" },
       { text: "Rond achterlichten en tankvuldop gecontroleerd" },
     ]
   },
   {
-    title: "✅ Algemene check",
+    title: "Algemene check",
     items: [
       { text: "Uitlaatgas kleur bij koud starten normaal (geen blauw/wit)" },
       { text: "Geen stuurtrilling bij 80-100 km/u" },
@@ -268,7 +268,7 @@ function toggle(id) {
 async function resetAll() {
   state = {};
   await saveState();
-  render();
+  render(); 
 }
  
 function render() {
