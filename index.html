@@ -1,0 +1,332 @@
+
+
+Swift checklist · HTML
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suzuki Swift Checklist</title>
+<style>
+  :root {
+    --bg: #faf9f7;
+    --card: #ffffff;
+    --ink: #1f1d1b;
+    --muted: #6b6560;
+    --line: #e8e4de;
+    --accent: #b5502f;
+    --accent-light: #f3e3dc;
+    --done: #6f8c6a;
+    --done-light: #e9f0e7;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding-bottom: 40px;
+  }
+  header {
+    padding: 20px 18px 14px;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  h1 {
+    font-size: 19px;
+    margin: 0 0 4px;
+    font-weight: 700;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+  }
+  .progress-wrap {
+    margin-top: 12px;
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.25s ease;
+    width: 0%;
+  }
+  .progress-text {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+  main { padding: 14px; max-width: 640px; margin: 0 auto; }
+  .section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 13px 16px;
+    font-weight: 700;
+    font-size: 14.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+  .items { padding: 4px 0; }
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .item:last-child { border-bottom: none; }
+  .checkbox {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--line);
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .checkbox.checked {
+    background: var(--done);
+    border-color: var(--done);
+  }
+  .checkbox svg { width: 13px; height: 13px; display: none; }
+  .checkbox.checked svg { display: block; }
+  .item-text { font-size: 14.5px; line-height: 1.4; flex: 1; }
+  .item.checked .item-text {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+  .item-note {
+    font-size: 12.5px;
+    color: var(--accent);
+    margin-top: 3px;
+    line-height: 1.35;
+  }
+  .item.checked .item-note { color: var(--muted); }
+  .reset-btn {
+    display: block;
+    margin: 20px auto 0;
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+    padding: 9px 18px;
+    border-radius: 20px;
+  }
+  .car-info {
+    background: var(--accent-light);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .car-info b { color: var(--accent); }
+</style>
+</head>
+<body>
+ 
+<header>
+  <h1>🚗 Swift Checklist</h1>
+  <p class="subtitle">Royal Cars Zoetermeer — 1.3 Comfort</p>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">0 van 0 afgevinkt</div>
+  </div>
+</header>
+ 
+<main>
+  <div class="car-info">
+    <b>2008</b> · 117.409 km (NAP) · 1.3 benzine, 92pk · Kettingdistributie · €3.299,-
+  </div>
+ 
+  <div id="sections"></div>
+ 
+  <button class="reset-btn" id="resetBtn">Alles opnieuw beginnen</button>
+</main>
+ 
+<script>
+const DATA = [
+  {
+    title: "📄 Papieren & voorbereiding",
+    items: [
+      { text: "RDW-kentekenrapport gecheckt (18ZJVB)", note: "Los van de dealer-link zelf even op rdw.nl checken" },
+      { text: "Onderhoudsboekje + facturen aanwezig en bekeken" },
+      { text: "Beide sleutels aanwezig" },
+      { text: "Km-stand komt overeen met laatste APK-registratie" },
+    ]
+  },
+  {
+    title: "⛓️ Distributieketting",
+    items: [
+      { text: "Motor koud laten starten (niet vooraf laten warmdraaien!)", note: "Bij 117.000 km zit dit motortype in de risicozone" },
+      { text: "Goed geluisterd naar geratel/gerammel eerste seconden" },
+      { text: "Gevraagd of ketting ooit vervangen is" },
+    ]
+  },
+  {
+    title: "⚙️ Versnellingsbak (nieuw vervangen!)",
+    items: [
+      { text: "Gevraagd: wanneer vervangen en bij welke km-stand?" },
+      { text: "Gevraagd: waarom vervangen — defect, preventief, ruilbak?" },
+      { text: "Factuur van vervanging opgevraagd/gezien" },
+      { text: "1e en 2e versnelling getest op jankend geluid" },
+      { text: "5e versnelling getest — springt niet uit tijdens rijden" },
+      { text: "Koppeling getest: grijpt niet te hoog/laag, sleept niet" },
+    ]
+  },
+  {
+    title: "🔧 Swift-specifieke punten",
+    items: [
+      { text: "ABS-ring: geen rammel bij voorwielen over hobbels" },
+      { text: "Wielophanging op speling gecheckt (op brug, wiebelen aan wielen)" },
+      { text: "Geen haperen/afslaan tijdens rit (brandstofpomp-contact)" },
+    ]
+  },
+  {
+    title: "🦀 Roest (18 jaar oude auto)",
+    items: [
+      { text: "Wielkasten voor en achter gecontroleerd" },
+      { text: "Drempels en onderkant portieren gecontroleerd" },
+      { text: "Bodemplaat gecontroleerd (evt. op brug)" },
+      { text: "Rond achterlichten en tankvuldop gecontroleerd" },
+    ]
+  },
+  {
+    title: "✅ Algemene check",
+    items: [
+      { text: "Uitlaatgas kleur bij koud starten normaal (geen blauw/wit)" },
+      { text: "Geen stuurtrilling bij 80-100 km/u" },
+      { text: "Airco blaast echt koud" },
+      { text: "Navigatie/carplay werkt" },
+      { text: "Ramen, spiegels, centrale vergrendeling werken" },
+      { text: "Proefrit 15-20 min gereden, ook buitenweg" },
+    ]
+  },
+];
+ 
+const STORAGE_KEY = "swift-checklist-state";
+let state = {};
+ 
+function itemId(si, ii) { return `${si}-${ii}`; }
+ 
+async function loadState() {
+  try {
+    const result = await window.storage.get(STORAGE_KEY, false);
+    if (result && result.value) {
+      state = JSON.parse(result.value);
+    }
+  } catch (e) {
+    state = {};
+  }
+  render();
+}
+ 
+async function saveState() {
+  try {
+    await window.storage.set(STORAGE_KEY, JSON.stringify(state), false);
+  } catch (e) {
+    console.error("Kon niet opslaan:", e);
+  }
+}
+ 
+function toggle(id) {
+  state[id] = !state[id];
+  saveState();
+  render();
+}
+ 
+async function resetAll() {
+  state = {};
+  await saveState();
+  render();
+}
+ 
+function render() {
+  const container = document.getElementById("sections");
+  container.innerHTML = "";
+  let totalItems = 0;
+  let totalChecked = 0;
+ 
+  DATA.forEach((section, si) => {
+    const sectionChecked = section.items.filter((_, ii) => state[itemId(si, ii)]).length;
+    totalItems += section.items.length;
+    totalChecked += sectionChecked;
+ 
+    const sectionEl = document.createElement("div");
+    sectionEl.className = "section";
+ 
+    const header = document.createElement("div");
+    header.className = "section-header";
+    header.innerHTML = `<span>${section.title}</span><span class="section-count">${sectionChecked}/${section.items.length}</span>`;
+    sectionEl.appendChild(header);
+ 
+    const itemsEl = document.createElement("div");
+    itemsEl.className = "items";
+ 
+    section.items.forEach((item, ii) => {
+      const id = itemId(si, ii);
+      const checked = !!state[id];
+      const itemEl = document.createElement("div");
+      itemEl.className = "item" + (checked ? " checked" : "");
+      itemEl.innerHTML = `
+        <div class="checkbox ${checked ? "checked" : ""}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <div>
+          <div class="item-text">${item.text}</div>
+          ${item.note ? `<div class="item-note">${item.note}</div>` : ""}
+        </div>
+      `;
+      itemEl.addEventListener("click", () => toggle(id));
+      itemsEl.appendChild(itemEl);
+    });
+ 
+    sectionEl.appendChild(itemsEl);
+    container.appendChild(sectionEl);
+  });
+ 
+  const pct = totalItems ? Math.round((totalChecked / totalItems) * 100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${totalChecked} van ${totalItems} afgevinkt`;
+}
+ 
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (confirm("Weet je zeker dat je alles wilt resetten?")) resetAll();
+});
+ 
+loadState();
+</script>
+ 
+</body>
+</html>
+ 
